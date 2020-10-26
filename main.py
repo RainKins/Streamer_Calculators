@@ -88,7 +88,7 @@ def calculate_totals():
             print("\nThe Transaction Fee is " + str(transactionFeePercent) + "%")
             print("Your Monthly Income without Tax: " + str(total))
             print("Your Monthly Income with Tax: " + str(total_with_tax))
-            print("Taxes Paid: " + str(taxes))
+            print("Monthly Taxes Paid: " + str(taxes))
 
             # Display Yearly Sums
             print("\nANNUAL TOTALS")
