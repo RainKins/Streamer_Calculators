@@ -6,8 +6,8 @@ import math
 locale.setlocale(locale.LC_ALL, 'English_United States.1252')
 
 # Global Variables: Assigned fee & taxes source:https://quickbooks.intuit.com/r/free-self-employment-tax-calculator/
-transactionFee = 0.05
-transactionFeePercent = transactionFee * 100
+coffeeTransactionFee = 0.05
+transactionFeePercent = coffeeTransactionFee * 100
 medicareTax = 0.029
 socialSecurityTax = 0.124
 additionalTax = 0.3  # Estimated rounded high end of additional taxes source: https://www.fundera.com/blog/small-business-tax-rate
@@ -59,7 +59,7 @@ def calculate_totals():
             subscription_fee = float(subscription_fee)
             # All formulas needed to find subtotals, monthly total with taxes, amount paid in taxes,
             subscription_total = supporters * subscription_fee
-            transaction_fee_total = subscription_total * transactionFee
+            transaction_fee_total = (subscription_total * coffeeTransactionFee) + (subscription_total * 0.029) + 0.30
             total = subscription_total - transaction_fee_total
             deduction = total * business_deduction
             total_with_deduction = total - deduction
@@ -85,7 +85,8 @@ def calculate_totals():
             transaction_fee_yearly = locale.currency(float(transaction_fee_yearly), grouping=True)
 
             # Display Monthly Sums
-            print("\nThe Transaction Fee is " + str(transactionFeePercent) + "%")
+            print(
+                "\nThe Transaction Fee is " + str(transactionFeePercent) + "%" + " & the Paygate Fee is 2.9% + $0.30.")
             print("Your Monthly Income without Tax: " + str(total))
             print("Your Monthly Income with Tax: " + str(total_with_tax))
             print("Monthly Taxes Paid: " + str(taxes))
@@ -112,8 +113,8 @@ def calculate_subs():
 
     # Check ValueError
     if not total_money.isnumeric or is_float(total_money) == False:
-            print("Invalid key.")
-            calculate_subs()
+        print("Invalid key.")
+        calculate_subs()
     else:
         sub_fee = input("Monthly Subscription Fee you'll charge: $")
 
@@ -126,8 +127,10 @@ def calculate_subs():
             total_money_with_deduction = total_money - (total_money * business_deduction)
             charges = (total_money_with_deduction * medicareTax) + \
                       (total_money_with_deduction * socialSecurityTax) + \
-                      (total_money_with_deduction * transactionFee) + \
-                      (total_money_with_deduction * additionalTax)
+                      (total_money_with_deduction * coffeeTransactionFee) + \
+                      (total_money_with_deduction * additionalTax) + \
+                      (total_money_with_deduction * 0.029) + 0.30
+
 
             total_money_with_tax = total_money - charges
             total_money_needed = total_money_with_tax + (charges * 2.485)
@@ -140,7 +143,7 @@ def calculate_subs():
             subs_round_up = ("{:,.0f}".format(subs_round_up))
 
             # Display subscriber calculation
-            print("The Transaction fee is " + str(transactionFeePercent) + "%")
+            print("The Transaction fee is " + str(transactionFeePercent) + "%" + " & the Paygate Fee is 2.9% + $0.30.")
             print("You will need " + (str(subs_round_up)) + " subscribers in order to make at least " + str(
                 total_money) + " a month after taxes.")
             start_over(calculate_subs)
