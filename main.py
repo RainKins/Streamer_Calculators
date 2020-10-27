@@ -63,8 +63,8 @@ def calculate_totals():
             total = subscription_total - transaction_fee_total
             deduction = total * business_deduction
             total_with_deduction = total - deduction
-            taxes = (total_with_deduction * medicareTax) + (total_with_deduction * socialSecurityTax) + (
-                    total_with_deduction * additionalTax)
+            taxes = (total_with_deduction * medicareTax) + (total_with_deduction * socialSecurityTax) + \
+                    (total_with_deduction * additionalTax)
             total_with_tax = total - taxes
 
             # Yearly sums
@@ -86,7 +86,7 @@ def calculate_totals():
 
             # Display Monthly Sums
             print(
-                "\nThe Transaction Fee is " + str(transactionFeePercent) + "%" + " & the Paygate Fee is 2.9% + $0.30.")
+                "\nThe Transaction Fee is " + str(transactionFeePercent) + "%" + " & The Paygate Fee is 2.9% + $0.30.")
             print("Your Monthly Income without Tax: " + str(total))
             print("Your Monthly Income with Tax: " + str(total_with_tax))
             print("Monthly Taxes Paid: " + str(taxes))
@@ -133,7 +133,7 @@ def calculate_subs():
 
 
             total_money_with_tax = total_money - charges
-            total_money_needed = total_money_with_tax + (charges * 2.485)
+            total_money_needed = total_money_with_tax + (charges * 2.538)
             subs = total_money_needed / sub_fee
             subs_round_up = math.ceil(subs)
             subs_round_up = int(subs_round_up)
@@ -143,7 +143,7 @@ def calculate_subs():
             subs_round_up = ("{:,.0f}".format(subs_round_up))
 
             # Display subscriber calculation
-            print("The Transaction fee is " + str(transactionFeePercent) + "%" + " & the Paygate Fee is 2.9% + $0.30.")
+            print("The Transaction fee is " + str(transactionFeePercent) + "%" + " & The Paygate Fee is 2.9% + $0.30.")
             print("You will need " + (str(subs_round_up)) + " subscribers in order to make at least " + str(
                 total_money) + " a month after taxes.")
             start_over(calculate_subs)
