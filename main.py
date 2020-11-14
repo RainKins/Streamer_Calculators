@@ -59,11 +59,14 @@ def calculate_totals():
             subscription_fee = float(subscription_fee)
             # All formulas needed to find subtotals, monthly total with taxes, amount paid in taxes,
             subscription_total = supporters * subscription_fee
-            transaction_fee_total = (subscription_total * coffeeTransactionFee) + (subscription_total * 0.029) + 0.30
+            transaction_fee_total = (subscription_total * coffeeTransactionFee) + \
+                                    (subscription_total * 0.029) + \
+                                    (supporters * 0.30)
             total = subscription_total - transaction_fee_total
             deduction = total * business_deduction
             total_with_deduction = total - deduction
-            taxes = (total_with_deduction * medicareTax) + (total_with_deduction * socialSecurityTax) + \
+            taxes = (total_with_deduction * medicareTax) + \
+                    (total_with_deduction * socialSecurityTax) + \
                     (total_with_deduction * additionalTax)
             total_with_tax = total - taxes
 
@@ -128,23 +131,28 @@ def calculate_subs():
             charges = (total_money_with_deduction * medicareTax) + \
                       (total_money_with_deduction * socialSecurityTax) + \
                       (total_money_with_deduction * coffeeTransactionFee) + \
-                      (total_money_with_deduction * additionalTax) + \
-                      (total_money_with_deduction * 0.029) + 0.30
+                      (total_money_with_deduction * additionalTax)
 
-
-            total_money_with_tax = total_money - charges
-            total_money_needed = total_money_with_tax + (charges * 2.538)
+            # Initial calculation
+            total_money_needed = (total_money_with_deduction + (charges * 2))
             subs = total_money_needed / sub_fee
             subs_round_up = math.ceil(subs)
-            subs_round_up = int(subs_round_up)
+
+            # Calculation with transaction fee
+            transaction_fee_total = (total_money_with_deduction * 0.029) + (subs_round_up * 0.3)
+            charges += (transaction_fee_total * 2)
+            total_money_needed += charges
+            subs = total_money_needed / sub_fee
+            subs_round = round(subs)
+            subs_round = int(subs_round)
 
             # Change totals into USD
             total_money = locale.currency(float(total_money), grouping=True)
-            subs_round_up = ("{:,.0f}".format(subs_round_up))
+            subs_round = ("{:,.0f}".format(subs_round))
 
             # Display subscriber calculation
             print("The Transaction fee is " + str(transactionFeePercent) + "%" + " & The Paygate Fee is 2.9% + $0.30.")
-            print("You will need " + (str(subs_round_up)) + " subscribers in order to make at least " + str(
+            print("You will need " + (str(subs_round)) + " subscribers in order to make at least " + str(
                 total_money) + " a month after taxes.")
             start_over(calculate_subs)
         else:
